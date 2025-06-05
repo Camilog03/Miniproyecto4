@@ -1,0 +1,19 @@
+# Archivos de IntelliJ IDEA
+.idea/
+*.iml
+
+# Archivos compilados
+bin/
+out/
+*.class
+
+# Dependencias
+*.jar
+*.war
+
+# Configuraciones del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de sistema operativo
+*.log
