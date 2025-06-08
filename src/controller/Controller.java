@@ -1,9 +1,13 @@
 package src.controller;
 
 import src.model.characters.Trainer;
+import src.model.exceptions.AtaqueNoDisponibleException;
+import src.model.exceptions.PokemonDebilitadoException;
 import src.model.pokemons.Pokemon;
 import src.view.Terminal.Terminal;
 import src.view.View;
+
+import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -37,16 +41,28 @@ public class Controller {
     }
 
     public void setTrainersNames(String trainerBlueName,  String trainerRedName) {
+        try{
+
+        if (trainerBlueName.isEmpty() || trainerRedName.isEmpty()) {
+            throw new IllegalArgumentException("Ambos entrenadores deben tener nombres válidos. No pueden haber espacios en blanco!");
+        }
+        
         trainerBlue.setTrainerName(trainerBlueName);
         trainerRed.setTrainerName(trainerRedName);
         System.out.println(trainerRed.getTrainerName());
         System.out.println(trainerBlue.getTrainerName());
-    }
 
+        }catch(IllegalArgumentException e){
+            view.showMessage(e.getMessage());
+            goToPanel1();
+        }
+    
+    }
     public void goToPanel2(){
 
         //Colas de nombres de los pokemones
-
+        try{
+            
         namesBlue = new LinkedList<>();
         namesBlue.add(trainerBlue.getSelectPokemonslist().get(0).getName());
         namesBlue.add(trainerBlue.getSelectPokemonslist().get(1).getName());
@@ -70,6 +86,10 @@ public class Controller {
         alivesRed.add(trainerRed.getSelectPokemonslist().get(2).isAlive());
 
         view.showPanel2(trainerBlue.getTrainerName(), trainerRed.getTrainerName(), namesBlue, namesRed, alivesBlue, alivesRed);
+        }catch(IndexOutOfBoundsException | InputMismatchException e){
+            view.showMessage("Asegúrate de seleccionar un número válido para tu elección!");
+            goToPanel2();
+        }
 
     }
 
@@ -77,6 +97,13 @@ public class Controller {
         this.indexPokemonBlue =  indexBlue;
         this.indexPokemonRed =  indexRed;
 
+        try{
+
+        if (!trainerBlue.getSelectedPokemon(indexBlue).isAlive()) {
+            throw new PokemonDebilitadoException(trainerBlue.getSelectedPokemon(indexBlue).getName() + " está debilitado y no puede usarse, selecciona otro pokemon");
+        }else if (!trainerRed.getSelectedPokemon(indexRed).isAlive()) {
+            throw new PokemonDebilitadoException(trainerRed.getSelectedPokemon(indexRed).getName() + " está debilitado y no puede usarse, selecciona otro pokemon");
+        }
         boolean turn = trainerBlue.getSelectedPokemon(indexBlue).getSpeed() > trainerRed.getSelectedPokemon(indexRed).getSpeed();
 
         Queue<String> blueAttacks = new LinkedList<>();
@@ -94,6 +121,11 @@ public class Controller {
 
         view.showPanel3("Inicia el entrandor " + (turn?"AZUL":"ROJO") ,trainerBlue.getTrainerName(),trainerRed.getTrainerName(), trainerBlue.getSelectedPokemon(indexBlue).getName(),
                 trainerRed.getSelectedPokemon(indexRed).getName(), trainerBlue.getSelectedPokemon(indexBlue).getPath(), trainerRed.getSelectedPokemon(indexRed).getPath() ,blueAttacks, redAttacks, turn);
+
+        }catch(PokemonDebilitadoException e){
+            view.showMessage(e.getMessage());
+            goToPanel2();
+        }
     }
 
     public void checkAlivePokemon(){
@@ -113,15 +145,27 @@ public class Controller {
     }
 
     public void blueMakeDamage(byte indexAttack){
-        trainerBlue.getSelectedPokemon(indexPokemonBlue).doAttack(trainerRed.getSelectedPokemon(indexPokemonRed), indexAttack);
-        view.showMessage(trainerRed.getSelectedPokemon(indexPokemonRed).getName() + " recibio " + trainerBlue.getSelectedPokemon(indexPokemonBlue).getDamageMadeIt() + " puntos de daño");
-        updateHP();
+            
+        try {
+            trainerBlue.getSelectedPokemon(indexPokemonBlue).doAttack(trainerRed.getSelectedPokemon(indexPokemonRed), indexAttack);
+            view.showMessage(trainerRed.getSelectedPokemon(indexPokemonRed).getName() + " recibio " + trainerBlue.getSelectedPokemon(indexPokemonBlue).getDamageMadeIt()
+            + " puntos de daño");updateHP();
+        } catch (AtaqueNoDisponibleException | PokemonDebilitadoException | IndexOutOfBoundsException e) {
+            view.showMessage(e.getMessage());
+        }
+       
     }
 
     public void redMakeDamage(byte indexAttack){
-        trainerRed.getSelectedPokemon(indexPokemonRed).doAttack(trainerBlue.getSelectedPokemon(indexPokemonBlue), indexAttack);
-        view.showMessage(trainerBlue.getSelectedPokemon(indexPokemonBlue).getName() + " recibio " + trainerRed.getSelectedPokemon(indexPokemonRed).getDamageMadeIt() + " puntos de daño");
-        updateHP();
+        
+            try {
+                trainerRed.getSelectedPokemon(indexPokemonRed).doAttack(trainerBlue.getSelectedPokemon(indexPokemonBlue), indexAttack);
+                view.showMessage(trainerBlue.getSelectedPokemon(indexPokemonBlue).getName() + " recibio " + trainerRed.getSelectedPokemon(indexPokemonRed).getDamageMadeIt() 
+                + " puntos de daño"); updateHP();
+            } catch (AtaqueNoDisponibleException | PokemonDebilitadoException | IndexOutOfBoundsException e) {
+                view.showMessage(e.getMessage());
+            }
+           
     }
 
     public void winner(){

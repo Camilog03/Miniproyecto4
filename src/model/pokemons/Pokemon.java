@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import src.model.actions.Attack;
+import src.model.exceptions.AtaqueNoDisponibleException;
+import src.model.exceptions.PokemonDebilitadoException;
 
 public abstract class Pokemon implements Comparable<Pokemon> {
 
@@ -98,7 +100,7 @@ public abstract class Pokemon implements Comparable<Pokemon> {
     //Other methods
 
     //Attack method that need to be defined on each type of pokemon
-    public abstract void doAttack(Pokemon oponentPokemon, byte indexAttackSelected);
+    public abstract void doAttack(Pokemon oponentPokemon, byte indexAttackSelected) throws AtaqueNoDisponibleException, PokemonDebilitadoException;
 
     //Receive damage method
     public void receiveDamage(short damage){
