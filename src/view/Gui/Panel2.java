@@ -88,7 +88,7 @@ public class Panel2 extends JPanel {
         JButton saveGame = new JButton("Guardar Partida");
 
         // Acción del botón
-        startBattleButton.addActionListener(e -> startBottonAction());
+        startBattleButton.addActionListener(e -> start());
         saveGame.addActionListener(e -> saveGame());
         // Añadir elementos en los paneles respectivos
 
@@ -152,7 +152,7 @@ public class Panel2 extends JPanel {
         }
 
 
-    private void startBottonAction(){
+    private void start(){
         String pokemonBlue = "";
         String pokemonRed = "";
 
