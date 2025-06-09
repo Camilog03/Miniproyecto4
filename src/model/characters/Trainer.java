@@ -29,8 +29,8 @@ public class Trainer implements Serializable {
         return team;
     }
 
-    public Pokemon getSelectedPokemon(byte index) {
-        return team.get(index);
+    public Pokemon getSelectedPokemon(String name) {
+    return team.get(name);
     }
 
     public static byte getMaxPokemon() {
