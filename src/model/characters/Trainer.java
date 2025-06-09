@@ -1,15 +1,18 @@
 package src.model.characters;
 
+import java.io.Serializable;
 import java.util.*;
 
+import src.model.actions.Attack;
 import src.model.pokemons.*;
 
 
-public class Trainer {
+public class Trainer implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private String trainerName;
     private static final byte MAX_POKEMONS = 3;
-    private ArrayList<Pokemon> selectPokemonslist = new ArrayList<Pokemon>();
+    private HashMap<String, Pokemon> team = new HashMap<String, Pokemon>();
 
 
     public Trainer(String trainerName) {
@@ -22,12 +25,12 @@ public class Trainer {
 
     public void setTrainerName(String trainerName) {this.trainerName = trainerName;}
 
-    public ArrayList<Pokemon> getSelectPokemonslist() {
-        return selectPokemonslist;
+    public HashMap<String, Pokemon> getTeam() {
+        return team;
     }
 
     public Pokemon getSelectedPokemon(byte index) {
-        return selectPokemonslist.get(index);
+        return team.get(index);
     }
 
     public static byte getMaxPokemon() {
@@ -74,7 +77,7 @@ public class Trainer {
         randomPokemons.add(new FlyingPokemon("Spearow", Type.FLYING, (short) 40, (short) 30, (short) 50, (short) 70, "src/images/pokemonsImages/flying/spearrow.png"));
         randomPokemons.add(new FlyingPokemon("Taillow", Type.FLYING, (short) 40, (short) 30, (short) 55, (short) 85, "src/images/pokemonsImages/flying/taillow.png"));
 
-        selectPokemonslist.clear();
+        team.clear();
 
         Random rand = new Random();
 
@@ -84,12 +87,11 @@ public class Trainer {
             setNotDuplicates.add(randomPokemons.get(rand.nextInt(randomPokemons.size())));
         }
 
-        selectPokemonslist.addAll(setNotDuplicates);
-
-        for (Pokemon pokemon : selectPokemonslist) {
+        for(Pokemon pokemon : setNotDuplicates){
             for (int i = 0; i < Pokemon.getMaxAttacks(); i++){
                 pokemon.selectAttacksRandom();
             }
+            team.put(pokemon.getName(), pokemon);
         }
 
     }

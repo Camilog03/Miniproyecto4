@@ -2,7 +2,10 @@ package src.model.actions;
 
 import src.model.pokemons.Type;
 
-public class Attack {
+import java.io.Serializable;
+
+public class Attack implements Serializable {
+    private static final long serialVersionUID = 1L;
     private final String name;
     private final Type typeOfDamage;
     private final short attackPower;

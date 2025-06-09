@@ -1,13 +1,15 @@
 package src.model.pokemons;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
 import src.model.actions.Attack;
 
-public abstract class Pokemon implements Comparable<Pokemon> {
+public abstract class Pokemon implements Comparable<Pokemon>, Serializable {
 
     //Attributes
+    private static final long serialVersionUID = 1L;
     protected short damageMadeIt;
     private final String path;
     private final String name;
@@ -18,9 +20,7 @@ public abstract class Pokemon implements Comparable<Pokemon> {
     private short defenseSpecial;
     private short speed;
     private boolean alive = true; //For default, it will always start as true
-    protected ArrayList<Attack> attacksOfClass = new ArrayList<Attack>();
-
-
+    protected transient ArrayList<Attack> attacksOfClass = new ArrayList<Attack>();
     protected ArrayList<Attack> attacksInstance = new ArrayList<Attack>(MAXATTACKS);
 
 
@@ -94,6 +94,10 @@ public abstract class Pokemon implements Comparable<Pokemon> {
 
     public short getDamageMadeIt() {
         return damageMadeIt;}
+
+    public Attack getAttackMadeIt(byte index){
+        return attacksInstance.get(index);
+    }
 
     //Other methods
 
