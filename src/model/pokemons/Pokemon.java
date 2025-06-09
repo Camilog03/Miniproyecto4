@@ -95,7 +95,7 @@ public abstract class Pokemon implements Comparable<Pokemon>, Serializable {
     public short getDamageMadeIt() {
         return damageMadeIt;}
 
-    public Attack getAttackMadeIt(byte index){
+    public Attack getAttackByIndex(byte index){
         return attacksInstance.get(index);
     }
 
