@@ -43,7 +43,7 @@ public class Controller {
         Queue<String> redAttacks = battleManager.getAttacksRed();
 
 
-        view.updateHP(battleManager.getHPBluePokemon(), battleManager.getHPRedPokemon());
+        view.updateHP(battleManager.getHPBluePokemon(), battleManager.getHPRedPokemon(), battleManager.getHPInitialBluePokemon(), battleManager.getHPInitialRedPokemon());
 
         view.showPanel3("Inicia el entrandor " + (turn?"AZUL":"ROJO") , battleManager.getBlueTrainerName(), battleManager.getRedTrainerName(), pokemonBlue,
                 pokemonRed, battleManager.getPathBluePokemon(), battleManager.getPathRedPokemon() ,blueAttacks, redAttacks, turn);
@@ -56,7 +56,7 @@ public class Controller {
 
     public void checkAlivePokemon(){
         if (!battleManager.getBluePokemonStatus() || !battleManager.getRedPokemonStatus()) {
-            String deadPokemon = battleManager.getBluePokemonStatus() ? battleManager.getBluePokemonName() : battleManager.getRedPokemonName();
+            String deadPokemon = battleManager.getBluePokemonStatus() ?  battleManager.getRedPokemonName():battleManager.getBluePokemonName();
 
             view.showMessage(deadPokemon + " ya no puede continuar...\nAcepta para volver al menú.");
             winner();
@@ -66,7 +66,7 @@ public class Controller {
     }
 
     public void updateHP(){
-        view.updateHP(battleManager.getHPBluePokemon(), battleManager.getHPRedPokemon());
+        view.updateHP(battleManager.getHPBluePokemon(), battleManager.getHPRedPokemon(), battleManager.getHPInitialBluePokemon(), battleManager.getHPInitialRedPokemon());
     }
 
     public void blueMakeDamage(byte indexAttack){

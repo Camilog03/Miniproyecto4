@@ -256,4 +256,11 @@ public class BattleManager implements Serializable {
         return pokemonRed.getName();
     }
 
+    public short getHPInitialBluePokemon() {
+        return pokemonBlue.getHpInitial();
+    }
+
+    public short getHPInitialRedPokemon() {
+        return pokemonRed.getHpInitial();
+    }
 }
