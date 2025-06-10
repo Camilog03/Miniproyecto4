@@ -3,6 +3,7 @@ package src.view.Gui;
 import src.controller.Controller;
 
 import java.awt.*;
+import java.util.Enumeration;
 import java.util.Queue;
 import javax.swing.*;
 
@@ -83,13 +84,12 @@ public class Panel2 extends JPanel {
 
         // Botón "Empezar Batalla"
         JButton startBattleButton = new JButton("Empezar Batalla");
-
-        // Botón "Cambiar a Terminal"
-        JButton changeToTerminal = new JButton("Cambiar a Terminal");
+        // Botón "Guardar Partida"
+        JButton saveGame = new JButton("Guardar Partida");
 
         // Acción del botón
-        startBattleButton.addActionListener(e -> startBottonAction());
-        changeToTerminal.addActionListener(e -> controller.changeView());
+        startBattleButton.addActionListener(e -> start());
+        saveGame.addActionListener(e -> saveGame());
         // Añadir elementos en los paneles respectivos
 
         //Izquierdos
@@ -113,8 +113,7 @@ public class Panel2 extends JPanel {
         // Añadir boton al panel de boton
 
         buttonPanel.add(startBattleButton);
-        buttonPanel.add(changeToTerminal);
-
+        buttonPanel.add(saveGame);
         // Añadir paneles izquierdo y derecho al centro y agregar
 
         centerPanel.add(leftPanel);
@@ -153,22 +152,47 @@ public class Panel2 extends JPanel {
         }
 
 
-    private void startBottonAction(){
-        byte indexPokemonBlue = -1;
-        byte indexPokemonRed = -1;
+    private void start(){
+        String pokemonBlue = "";
+        String pokemonRed = "";
 
-        if (radioButton1Blue.isSelected()) indexPokemonBlue = 0;
-        if (radioButton2Blue.isSelected()) indexPokemonBlue = 1;
-        if (radioButton3Blue.isSelected()) indexPokemonBlue = 2;
+        for (Enumeration<AbstractButton> e = leftButtonGroup.getElements(); e.hasMoreElements();){
+            AbstractButton button = e.nextElement();
+            if (button.isSelected()){
+              pokemonBlue = button.getText();
+            }
+        }
 
-        if (radioButton1Red.isSelected()) indexPokemonRed = 0;
-        if (radioButton2Red.isSelected()) indexPokemonRed = 1;
-        if (radioButton3Red.isSelected()) indexPokemonRed = 2;
+        for (Enumeration<AbstractButton> e = rightButtonGroup.getElements(); e.hasMoreElements();){
+            AbstractButton button = e.nextElement();
+            if (button.isSelected()){
+                pokemonRed = button.getText();
+            }
+        }
 
-        if (indexPokemonBlue == -1 || indexPokemonRed == -1) {
+        if (pokemonBlue.isBlank() ||  pokemonRed.isBlank()) {
             JOptionPane.showMessageDialog(this, "Debes seleccionar un Pokémon para ambos entrenadores.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         } else {
-            controller.goToPanel3(indexPokemonBlue,indexPokemonRed);
+            controller.goToPanel3(pokemonBlue, pokemonRed);
+        }
+    }
+
+    private void saveGame() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Guardar partida");
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Archivos de partida (*.dat)", "dat"));
+        int resultado = fileChooser.showSaveDialog(this); // 'this' si Panel2 es un JPanel
+        if (resultado == JFileChooser.APPROVE_OPTION) {
+            String path = fileChooser.getSelectedFile().getAbsolutePath();
+            if (!path.toLowerCase().endsWith(".dat")) {
+                path += ".dat"; // Asegúrate de que la extensión sea .dat
+            }
+            try {
+                controller.saveGame(path);
+                JOptionPane.showMessageDialog(this, "Partida guardada exitosamente.");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error al guardar la partida: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 

@@ -152,9 +152,10 @@ public class Panel3 extends JPanel implements ActionListener {
         }
 
         // Verificar si alguno de los Pokemon fue derrotado
+        controller.winner();
         controller.checkAlivePokemon();
 
-        isBlueTurn = !isBlueTurn;
+        isBlueTurn = controller.nextTurn();
         updateButtonStates();
     }
 
@@ -213,11 +214,11 @@ public class Panel3 extends JPanel implements ActionListener {
     }
 
     public void setBluePokemonName(String name) {
-        bluePokemonLabel.setText("Pokemon: " + name);
+        bluePokemonLabel.setText(name);
     }
 
     public void setRedPokemonName(String name) {
-        redPokemonLabel.setText("Pokemon: " + name);
+        redPokemonLabel.setText(name);
     }
 
     public void setController(Controller controller) {
