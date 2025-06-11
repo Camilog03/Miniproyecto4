@@ -15,6 +15,7 @@ public abstract class Pokemon implements Comparable<Pokemon>, Serializable {
     private final String name;
     private final Type type;
     protected static final byte MAXATTACKS = 4;
+    private short hpInitial;
     private short hp;
     private short defenseFisic;
     private short defenseSpecial;
@@ -37,6 +38,7 @@ public abstract class Pokemon implements Comparable<Pokemon>, Serializable {
         this.name = name;
         this.type = type;
         this.hp = hp;
+        this.hpInitial = hp;
         this.defenseFisic = defenseFisic;
         this.defenseSpecial = defenseSpecial;
         this.speed = speed;
@@ -45,9 +47,14 @@ public abstract class Pokemon implements Comparable<Pokemon>, Serializable {
 
     //Setters and Getters
 
+    public short getHpInitial(){
+        return hpInitial;
+    }
+
     public String getName() {
         return name;
     }
+
     public Type getType() {
         return type;
     }

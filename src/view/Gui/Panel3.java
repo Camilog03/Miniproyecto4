@@ -17,6 +17,7 @@ public class Panel3 extends JPanel implements ActionListener {
     private JButton attack1Blue, attack2Blue, attack3Blue, attack1Red, attack2Red, attack3Red;
     private boolean isBlueTurn;
     private JLabel redPokemonHpLabel, bluePokemonHpLabel, bluePokemonImage, redPokemonImage;
+    private short hpBlueInitial, hpRedInitial;
 
 
     public Panel3() {
@@ -189,9 +190,9 @@ public class Panel3 extends JPanel implements ActionListener {
     }
 
     //Actualiza HP con los valores actuales
-    public void updateHpLabels(short hpBlue, short hpRed) {
-        bluePokemonHpLabel.setText("HP = " + hpBlue);
-        redPokemonHpLabel.setText("HP = " + hpRed);
+    public void updateHpLabels(short hpBlue, short hpRed, short hpInitialBlue, short hpInitialRed) {
+        bluePokemonHpLabel.setText("HP = " + hpBlue  + "/" + hpInitialBlue);
+        redPokemonHpLabel.setText("HP = " + hpRed + "/" + hpInitialRed);
     }
 
     // Setters para actualizar nombres e imágenes

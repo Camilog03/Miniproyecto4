@@ -80,8 +80,8 @@ public class Gui extends JFrame implements View {
     }
 
     @Override
-    public void updateHP(short hpBlue, short hpRed) {
-        panel3.updateHpLabels(hpBlue, hpRed);
+    public void updateHP(short hpBlue, short hpRed, short hpInitialBlue, short hpInitialRed) {
+        panel3.updateHpLabels(hpBlue, hpRed, hpInitialBlue, hpInitialRed);
     }
 
     @Override
