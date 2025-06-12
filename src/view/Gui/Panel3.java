@@ -17,6 +17,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Queue;
+import java.util.Stack;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -26,8 +27,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
+import javax.swing.JTextArea;
 
 class BarHpPokemonPanel extends JPanel {
     private int currHp, maxHp;
@@ -96,15 +99,34 @@ public class Panel3 extends JPanel implements ActionListener {
     private JLabel redPokemonHpLabel, bluePokemonHpLabel, bluePokemonImage, redPokemonImage;
     private short hpBlueInitial, hpRedInitial;
     private BarHpPokemonPanel blueHpBar, redHpBar;
+    private JTextArea actionHistoryArea;
 
     public Panel3() {
 
-        setLayout(new BorderLayout());
-
-        // Fondo degradado
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setOpaque(false);
 
-        //Paneles
+        // Historial de acciones (centrado, con scroll y tamaño fijo)
+        actionHistoryArea = new JTextArea(6, 40); // 6 filas, 40 columnas
+        actionHistoryArea.setEditable(false);
+        actionHistoryArea.setFont(new Font("Arial", Font.PLAIN, 14));
+        actionHistoryArea.setLineWrap(true);
+        actionHistoryArea.setWrapStyleWord(true);
+        actionHistoryArea.setBackground(new Color(240,240,240));
+        actionHistoryArea.setBorder(BorderFactory.createTitledBorder("Historial de ataques"));
+
+        JScrollPane historyScroll = new JScrollPane(actionHistoryArea);
+        historyScroll.setPreferredSize(new Dimension(500, 120)); // Ajusta el tamaño a tu gusto
+        historyScroll.setMaximumSize(new Dimension(600, 140));
+        historyScroll.setAlignmentX(Component.CENTER_ALIGNMENT);
+        historyScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        JPanel historyPanel = new JPanel();
+        historyPanel.setOpaque(false);
+        historyPanel.setLayout(new BoxLayout(historyPanel, BoxLayout.Y_AXIS));
+        historyPanel.add(historyScroll);
+
+        // Paneles de batalla
         JPanel centerPanel = new JPanel(new GridLayout(1, 2, 20, 0));
         centerPanel.setOpaque(false);
 
@@ -272,11 +294,15 @@ public class Panel3 extends JPanel implements ActionListener {
         redButtonsPanel.add(attack3Red);
         rightPanel.add(redButtonsPanel, BorderLayout.SOUTH);
 
-        //Panel Principal
         centerPanel.add(leftPanel);
         centerPanel.add(rightPanel);
 
-        add(centerPanel, BorderLayout.CENTER);
+        // Añadir al panel principal (vertical)
+        add(Box.createVerticalStrut(20)); // Espacio arriba
+        add(historyPanel);
+        add(Box.createVerticalStrut(10)); // Espacio entre historial y batalla
+        add(centerPanel);
+        add(Box.createVerticalGlue()); // Empuja todo hacia el centro
 
         updateButtonStates();
 
@@ -407,5 +433,17 @@ public class Panel3 extends JPanel implements ActionListener {
     public void setPokemonIndexes(boolean turn) {
         isBlueTurn = turn;
         updateButtonStates();
+    }
+
+    public void setActionHistory(Stack<String> actionHistory) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = actionHistory.size() - 1; i >= 0; i--) {
+            sb.append(actionHistory.get(i)).append("\n");
+        }
+        actionHistoryArea.setText(sb.toString());
+    }
+
+    public void clearActionHistory() {
+        actionHistoryArea.setText("");
     }
 }

@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import java.util.Queue;
+import java.util.Stack;
 
 public class Gui extends JFrame implements View {
 
@@ -99,5 +100,15 @@ public class Gui extends JFrame implements View {
     @Override
     public void disable() {
         dispose();
+    }
+
+    @Override
+    public void updateActionHistory(Stack<String> actionHistory) {
+        panel3.setActionHistory(actionHistory);
+    }
+
+    @Override
+    public void clearActionHistory() {
+        panel3.clearActionHistory();
     }
 }

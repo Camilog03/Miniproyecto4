@@ -2,6 +2,7 @@ package src.view;
 
 import src.controller.Controller;
 import java.util.Queue;
+import java.util.Stack;
 
 public interface View {
 
@@ -13,4 +14,6 @@ public interface View {
     void showMessage(String msg);
     void setController(Controller controller);
     void disable();
+    void updateActionHistory(Stack<String> actionHistory);
+    void clearActionHistory();
 }

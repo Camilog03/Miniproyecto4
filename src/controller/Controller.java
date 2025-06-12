@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 
 public class Controller {
 
@@ -63,6 +64,11 @@ public class Controller {
         return battleManager.getTurn();
     }
 
+    public Stack<String> getActionHistory() {
+        return battleManager.getActionHistory();
+    }
+
+
     public void checkAlivePokemon() throws SeleccionInvalidaException{
         if (!battleManager.getBluePokemonStatus() || !battleManager.getRedPokemonStatus()) {
             String deadPokemon = battleManager.getBluePokemonStatus() ?  battleManager.getRedPokemonName():battleManager.getBluePokemonName();
@@ -70,6 +76,7 @@ public class Controller {
             view.showMessage(deadPokemon + " ya no puede continuar...\nAcepta para volver al menú.");
             winner();
             battleManager.updatePokemonsAlives();
+            view.clearActionHistory(); // <-- Limpia el historial en la vista
             goToPanel2();
         }
         
@@ -82,11 +89,13 @@ public class Controller {
     public void blueMakeDamage(byte indexAttack){
         view.showMessage(battleManager.bluePokemonAttack(indexAttack));
         updateHP();
+        view.updateActionHistory(getActionHistory());
     }
 
     public void redMakeDamage(byte indexAttack){
         view.showMessage(battleManager.redPokemonAttack(indexAttack));
         updateHP();
+        view.updateActionHistory(getActionHistory());
     }
 
     public void winner(){
