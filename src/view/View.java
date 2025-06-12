@@ -11,7 +11,7 @@ public interface View {
     void showPanel3(String menssageStart, String blueTrainerName, String redTrainerName, String bluePokemonName, String redPokemonName,
                     String bluePath, String redPath,Queue<String> blueAttacks, Queue<String> redAttacks, boolean turn);  // Ej: resumen u opciones
     void updateHP(short hpBlue, short hpRed, short hpInitialBlue, short hpInitialRed); //metodo unico para la gui
-    void showMessage(String msg);
+    void showMessage(String msg); //Para mostrar algún mensaje
     void setController(Controller controller);
     void disable();
     void updateActionHistory(Stack<String> actionHistory);

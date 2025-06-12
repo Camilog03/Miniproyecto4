@@ -1,11 +1,14 @@
 package src.view.Gui;
 import src.controller.Controller;
 import src.view.View;
-import javax.swing.*;
-import java.awt.*;
 
+import java.awt.CardLayout;
+import java.awt.Container;
 import java.util.Queue;
 import java.util.Stack;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class Gui extends JFrame implements View {
 
@@ -16,7 +19,7 @@ public class Gui extends JFrame implements View {
     private Panel2 panel2;
     private Panel3 panel3;
 
-
+    // Constructor de la GUI
     public Gui(){
         setTitle("BATALLA POKEMON");
         setSize(800,500);
@@ -37,11 +40,13 @@ public class Gui extends JFrame implements View {
 
     }
 
+    // Método para mostrar el panel 1 (ingreso de datos)
     @Override
     public void showPanel1() {
         setVisible(true);
     }
 
+    // Método para mostrar el panel 2 (selección de pokemones)
     @Override
     public void showPanel2(String blueTrainerName, String redTrainerName, Queue<String> namesBlue, Queue<String> namesRed, Queue<Boolean> aliveBlue, Queue<Boolean> aliveRed) {
 
@@ -57,7 +62,7 @@ public class Gui extends JFrame implements View {
 
     }
 
-
+    // Método para mostrar el panel 3 (batalla)
     @Override
     public void showPanel3(String menssageStart, String blueTrainerName, String redTrainerName, String bluePokemonName, String redPokemonName,
                            String bluePath, String redPath,Queue<String> blueAttacks, Queue<String> redAttacks, boolean turn) {
@@ -80,16 +85,19 @@ public class Gui extends JFrame implements View {
 
     }
 
+    // Método para actualizar los puntos de vida de los pokemones
     @Override
     public void updateHP(short hpBlue, short hpRed, short hpInitialBlue, short hpInitialRed) {
         panel3.updateHpLabels(hpBlue, hpRed, hpInitialBlue, hpInitialRed);
     }
 
+    // Método para mostrar un mensaje en la GUI
     @Override
     public void showMessage(String msg) {
         JOptionPane.showMessageDialog(this, msg, "INFORMACION" ,JOptionPane.INFORMATION_MESSAGE);
     }
 
+    // Método para establecer el controlador
     @Override
     public void setController(Controller controller) {
         panel1.setController(controller);
@@ -97,16 +105,19 @@ public class Gui extends JFrame implements View {
         panel3.setController(controller);
     }
 
+    // Método para deshabilitar la GUI al finalizar el juego
     @Override
     public void disable() {
         dispose();
     }
 
+    // Método para actualizar el historial de acciones
     @Override
     public void updateActionHistory(Stack<String> actionHistory) {
         panel3.setActionHistory(actionHistory);
     }
 
+    // Método para limpiar el historial de acciones
     @Override
     public void clearActionHistory() {
         panel3.clearActionHistory();

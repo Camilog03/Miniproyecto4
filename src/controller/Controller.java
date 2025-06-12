@@ -22,6 +22,7 @@ public class Controller {
         view.showPanel1();
     }
 
+    // Inicia una nueva partida con los nombres de los entrenadores
     public void newGame(String trainerBlueName,  String trainerRedName) throws SeleccionInvalidaException{
         if (trainerBlueName.isEmpty() || trainerRedName.isEmpty()){
             throw new SeleccionInvalidaException("Debes llenar ambos campos!");
@@ -35,6 +36,7 @@ public class Controller {
 
     }
 
+    // Inicia la batalla con los pokemons seleccionados por los entrenadores
     public void goToPanel3(String pokemonBlue, String pokemonRed) throws SeleccionInvalidaException{ 
         
         if (pokemonBlue.isBlank() ||  pokemonRed.isBlank()){
@@ -54,16 +56,18 @@ public class Controller {
                 pokemonRed, battleManager.getPathBluePokemon(), battleManager.getPathRedPokemon() ,blueAttacks, redAttacks, turn);
     }
 
+    // Cambia el turno de batalla
     public boolean nextTurn() {
         battleManager.nextTurn();
         return battleManager.getTurn();
     }
 
+    // Obtiene el historial de acciones de la batalla
     public Stack<String> getActionHistory() {
         return battleManager.getActionHistory();
     }
 
-
+    // Verifica si los pokemons están vivos, si no lo están, muestra un mensaje y vuelve al panel 2
     public void checkAlivePokemon() throws SeleccionInvalidaException{
         if (!battleManager.getBluePokemonStatus() || !battleManager.getRedPokemonStatus()) {
             String deadPokemon = battleManager.getBluePokemonStatus() ?  battleManager.getRedPokemonName():battleManager.getBluePokemonName();
@@ -76,11 +80,13 @@ public class Controller {
         }
         
     }
-
+    
+    //Actualiza la vida de los pokemons en la vista
     public void updateHP(){
         view.updateHP(battleManager.getHPBluePokemon(), battleManager.getHPRedPokemon(), battleManager.getHPInitialBluePokemon(), battleManager.getHPInitialRedPokemon());
     }
 
+    //Muestra daños de cada pokemon y los carga en el historial de batalla
     public void blueMakeDamage(byte indexAttack){
         view.showMessage(battleManager.bluePokemonAttack(indexAttack));
         updateHP();
@@ -93,6 +99,7 @@ public class Controller {
         view.updateActionHistory(getActionHistory());
     }
 
+    //Muestra ganador y termina el juego
     public void winner(){
         String result = battleManager.hasWinner();
         if(!result.isBlank()){
@@ -101,10 +108,12 @@ public class Controller {
         }
     }
 
+    // Vuelve al panel 1
     public void goToPanel1(){
         view.showPanel1();
     }
 
+    //Cargar juego
     public void uploadGame(String path) throws IOException, FileNotFoundException, ClassNotFoundException, SeleccionInvalidaException{
        
         this.battleManager = BattleManager.loadGame(path);
@@ -112,6 +121,7 @@ public class Controller {
         
     }
 
+    //Guardar juego
     public void saveGame(String path) throws IOException, FileNotFoundException{
     
         battleManager.saveGame(path);

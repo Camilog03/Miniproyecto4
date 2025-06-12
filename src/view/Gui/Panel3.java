@@ -32,6 +32,7 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.JTextArea;
 
+// Panel para mostrar la barra de vida de los Pokémon
 class BarHpPokemonPanel extends JPanel {
     private int currHp, maxHp;
     private final int width = 150;
@@ -63,12 +64,13 @@ class BarHpPokemonPanel extends JPanel {
             currColor = Color.RED;
         }
 
-        int lifeWidth = (int) ((width * currHp) / (double) maxHp);
+        int lifeWidth = (int) ((width * currHp) / (double) maxHp); // Ancho de la barra de vida según el HP actual
         g.setColor(currColor);
         g.fillRect(0, 0, lifeWidth, height);
 
     }
 
+    // Método para actualizar la barra de vida con animación
     public void updateHp(int newHp) {
         Timer t = new Timer(10, e -> {
             if (currHp == newHp) {
@@ -82,6 +84,7 @@ class BarHpPokemonPanel extends JPanel {
         t.start();
     }
 
+    // Método para establecer el HP máximo y actualizar la barra
     public void setMaxHp(int maxHp) {
         this.maxHp = maxHp;
         repaint();
@@ -101,6 +104,7 @@ public class Panel3 extends JPanel implements ActionListener {
     private BarHpPokemonPanel blueHpBar, redHpBar;
     private JTextArea actionHistoryArea;
 
+    // Constructor del panel
     public Panel3() {
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -115,12 +119,14 @@ public class Panel3 extends JPanel implements ActionListener {
         actionHistoryArea.setBackground(new Color(240,240,240));
         actionHistoryArea.setBorder(BorderFactory.createTitledBorder("Historial de ataques"));
 
+        // Ajustar el tamaño del área de texto
         JScrollPane historyScroll = new JScrollPane(actionHistoryArea);
-        historyScroll.setPreferredSize(new Dimension(500, 120)); // Ajusta el tamaño a tu gusto
+        historyScroll.setPreferredSize(new Dimension(500, 120)); 
         historyScroll.setMaximumSize(new Dimension(600, 140));
         historyScroll.setAlignmentX(Component.CENTER_ALIGNMENT);
         historyScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
+        // Panel para el historial de acciones
         JPanel historyPanel = new JPanel();
         historyPanel.setOpaque(false);
         historyPanel.setLayout(new BoxLayout(historyPanel, BoxLayout.Y_AXIS));
@@ -130,6 +136,7 @@ public class Panel3 extends JPanel implements ActionListener {
         JPanel centerPanel = new JPanel(new GridLayout(1, 2, 20, 0));
         centerPanel.setOpaque(false);
 
+        // Paneles izquierdo y derecho para los Pokémon
         JPanel leftPanel = new JPanel(new BorderLayout());
         leftPanel.setOpaque(false);
         JPanel leftLabelsPanel = new JPanel(new GridLayout(2, 1));
@@ -154,7 +161,7 @@ public class Panel3 extends JPanel implements ActionListener {
             BorderFactory.createEmptyBorder(10, 10, 10, 10)
         ));
 
-        // Etiquetas
+        // Etiquetas de entrenadores y Pokémon
         blueTrainerLabel = new JLabel("", SwingConstants.CENTER);
         blueTrainerLabel.setFont(new Font("Arial", Font.BOLD, 18));
         blueTrainerLabel.setForeground(new Color(0x1976D2));
@@ -227,11 +234,13 @@ public class Panel3 extends JPanel implements ActionListener {
         bluePokemonPanel.setLayout(new BoxLayout(bluePokemonPanel, BoxLayout.Y_AXIS));
         bluePokemonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // Alineación de los componentes dentro del panel azul
         bluePokemonLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         bluePokemonImage.setAlignmentX(Component.CENTER_ALIGNMENT);
         bluePokemonHpLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         blueHpBar.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // Añadir espacio vertical entre los componentes
         bluePokemonPanel.add(Box.createVerticalStrut(10));
         bluePokemonPanel.add(bluePokemonLabel);
         bluePokemonPanel.add(Box.createVerticalStrut(10));
@@ -254,11 +263,13 @@ public class Panel3 extends JPanel implements ActionListener {
         redPokemonPanel.setLayout(new BoxLayout(redPokemonPanel, BoxLayout.Y_AXIS));
         redPokemonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // Alineación de los componentes dentro del panel rojo
         redPokemonLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         redPokemonImage.setAlignmentX(Component.CENTER_ALIGNMENT);
         redPokemonHpLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         redHpBar.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // Añadir espacio vertical entre los componentes
         redPokemonPanel.add(Box.createVerticalStrut(10));
         redPokemonPanel.add(redPokemonLabel);
         redPokemonPanel.add(Box.createVerticalStrut(10));
@@ -276,6 +287,7 @@ public class Panel3 extends JPanel implements ActionListener {
         redPokemonPanel.add(Box.createVerticalStrut(10));
 
         // Añadir elementos a los paneles correspondientes
+        // Panel izquierdo
         leftLabelsPanel.add(blueTrainerLabel);
         leftLabelsPanel.add(Box.createVerticalStrut(10));
         leftPanel.add(leftLabelsPanel, BorderLayout.NORTH);
@@ -285,6 +297,7 @@ public class Panel3 extends JPanel implements ActionListener {
         blueButtonsPanel.add(attack3Blue);
         leftPanel.add(blueButtonsPanel, BorderLayout.SOUTH);
 
+        // Panel derecho
         rightLabelsPanel.add(redTrainerLabel);
         rightLabelsPanel.add(Box.createVerticalStrut(10));
         rightPanel.add(rightLabelsPanel, BorderLayout.NORTH);
@@ -336,6 +349,7 @@ public class Panel3 extends JPanel implements ActionListener {
         attack3Red.setEnabled(!isBlueTurn);
     }
 
+    // Establece los nombres de los ataques de ambos Pokémon
     public void setNamesAttacks(Queue<String> blueAttacks, Queue<String> redAttacks) {
         attack1Blue.setText(blueAttacks.poll());
         attack2Blue.setText(blueAttacks.poll());
@@ -391,6 +405,7 @@ public class Panel3 extends JPanel implements ActionListener {
         this.isBlueTurn = isBlueTurn;
     }
 
+    // Método que maneja los eventos de los botones de ataque
     @Override
     public void actionPerformed(ActionEvent e) {
         if (isBlueTurn) {
@@ -418,6 +433,7 @@ public class Panel3 extends JPanel implements ActionListener {
         // Verificar si alguno de los Pokemon fue derrotado
         controller.winner();
 
+
         try {
             controller.checkAlivePokemon();
         } catch (SeleccionInvalidaException e1) {
@@ -435,6 +451,7 @@ public class Panel3 extends JPanel implements ActionListener {
         updateButtonStates();
     }
 
+    // Método para establecer el historial de acciones
     public void setActionHistory(Stack<String> actionHistory) {
         StringBuilder sb = new StringBuilder();
         for (int i = actionHistory.size() - 1; i >= 0; i--) {
@@ -443,6 +460,7 @@ public class Panel3 extends JPanel implements ActionListener {
         actionHistoryArea.setText(sb.toString());
     }
 
+    // Método para limpiar el historial de acciones
     public void clearActionHistory() {
         actionHistoryArea.setText("");
     }

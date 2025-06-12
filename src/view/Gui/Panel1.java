@@ -33,6 +33,7 @@ public class Panel1 extends JPanel {
     private JTextField trainerName1, trainerName2;
     private JButton startButton, loadButton;
 
+    // Constructor del panel
     public Panel1() {
 
         setLayout(new BorderLayout());
@@ -44,6 +45,7 @@ public class Panel1 extends JPanel {
         JPanel centerPanel = new JPanel(new GridLayout(1, 2, 40, 0));
         centerPanel.setOpaque(false);
 
+        // Paneles para los entrenadores
         JPanel leftPanel = new JPanel(new BorderLayout());
         leftPanel.setOpaque(false);
         JPanel rightPanel = new JPanel(new BorderLayout());
@@ -65,8 +67,6 @@ public class Panel1 extends JPanel {
         titleLabelImage.setHorizontalAlignment(SwingConstants.CENTER);
         trainer1Image.setHorizontalAlignment(SwingConstants.CENTER);
         trainer2Image.setHorizontalAlignment(SwingConstants.CENTER);
-
-
 
         // Etiqueta del color de cada entrenador
         JLabel trainerLabel1 = new JLabel("Entrenador Azul:");
@@ -103,10 +103,13 @@ public class Panel1 extends JPanel {
         loadButton.setFocusPainted(false);
 
         // Añadir los elementos a los paneles correspondientes
+
+        // Añadir los elementos al panel izquierdo
         leftPanel.add(trainer1Image, BorderLayout.NORTH);
         leftPanel.add(trainerLabel1, BorderLayout.CENTER);
         leftPanel.add(trainerName1, BorderLayout.SOUTH);
 
+        // Añadir los elementos al panel derecho
         rightPanel.add(trainer2Image, BorderLayout.NORTH);
         rightPanel.add(trainerLabel2, BorderLayout.CENTER);
         rightPanel.add(trainerName2, BorderLayout.SOUTH);
@@ -163,7 +166,8 @@ public class Panel1 extends JPanel {
             }
         }
     }
-
+    
+    // Método para establecer el controlador
     public void setController(Controller controller) {
         this.controller = controller;
     }

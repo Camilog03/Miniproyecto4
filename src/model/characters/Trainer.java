@@ -1,12 +1,25 @@
 package src.model.characters;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 import src.model.actions.Attack;
-import src.model.pokemons.*;
+import src.model.pokemons.ElectricPokemon;
+import src.model.pokemons.FirePokemon;
+import src.model.pokemons.FlyingPokemon;
+import src.model.pokemons.GroundPokemon;
+import src.model.pokemons.PlantPokemon;
+import src.model.pokemons.Pokemon;
+import src.model.pokemons.RockPokemon;
+import src.model.pokemons.Type;
+import src.model.pokemons.WaterPokemon;
 
 
+//
 public class Trainer implements Serializable {
 
     private static final long serialVersionUID = 1L;
