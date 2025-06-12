@@ -44,6 +44,7 @@ public class Gui extends JFrame implements View {
     @Override
     public void showPanel1() {
         setVisible(true);
+        setLocationRelativeTo(null);
     }
 
     // Método para mostrar el panel 2 (selección de pokemones)
