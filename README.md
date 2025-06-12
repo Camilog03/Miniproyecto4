@@ -96,7 +96,7 @@ Esto permite continuar una batalla justo donde se dejó.
 
 Se implementó la excepción personalizada:
 
-- ⚠️ `PokemonDebilitadoException`:  
+- ⚠️ `SeleccionInvalidaException`:  
   Se lanza al intentar usar un Pokémon con HP ≤ 0.
 
 Mejora el flujo lógico del combate y la robustez del sistema.
