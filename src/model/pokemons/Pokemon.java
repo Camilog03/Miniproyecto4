@@ -1,5 +1,6 @@
 package src.model.pokemons;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -7,22 +8,22 @@ import src.model.actions.Attack;
 import src.model.exceptions.AtaqueNoDisponibleException;
 import src.model.exceptions.PokemonDebilitadoException;
 
-public abstract class Pokemon implements Comparable<Pokemon> {
+public abstract class Pokemon implements Comparable<Pokemon>, Serializable {
 
     //Attributes
+    private static final long serialVersionUID = 1L;
     protected short damageMadeIt;
     private final String path;
     private final String name;
     private final Type type;
     protected static final byte MAXATTACKS = 4;
+    private short hpInitial;
     private short hp;
     private short defenseFisic;
     private short defenseSpecial;
     private short speed;
     private boolean alive = true; //For default, it will always start as true
-    protected ArrayList<Attack> attacksOfClass = new ArrayList<Attack>();
-
-
+    protected transient ArrayList<Attack> attacksOfClass = new ArrayList<Attack>();
     protected ArrayList<Attack> attacksInstance = new ArrayList<Attack>(MAXATTACKS);
 
 
@@ -39,6 +40,7 @@ public abstract class Pokemon implements Comparable<Pokemon> {
         this.name = name;
         this.type = type;
         this.hp = hp;
+        this.hpInitial = hp;
         this.defenseFisic = defenseFisic;
         this.defenseSpecial = defenseSpecial;
         this.speed = speed;
@@ -47,9 +49,14 @@ public abstract class Pokemon implements Comparable<Pokemon> {
 
     //Setters and Getters
 
+    public short getHpInitial(){
+        return hpInitial;
+    }
+
     public String getName() {
         return name;
     }
+
     public Type getType() {
         return type;
     }
@@ -96,6 +103,10 @@ public abstract class Pokemon implements Comparable<Pokemon> {
 
     public short getDamageMadeIt() {
         return damageMadeIt;}
+
+    public Attack getAttackByIndex(byte index){
+        return attacksInstance.get(index);
+    }
 
     //Other methods
 
