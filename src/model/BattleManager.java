@@ -110,6 +110,8 @@ public class BattleManager implements Serializable {
 
     // Actualiza estado de los pokemones (si están vivos o no)
     public void updatePokemonsAlives(){
+        this.alivesBlue.clear();
+        this.alivesRed.clear();
         for(String name : trainerBlue.getTeam().keySet()) {
             this.alivesBlue.add(trainerBlue.getTeam().get(name).isAlive());
         }
