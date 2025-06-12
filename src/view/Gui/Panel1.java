@@ -2,8 +2,24 @@ package src.view.Gui;
 
 import src.controller.Controller;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.Image;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 public class Panel1 extends JPanel {
@@ -18,11 +34,19 @@ public class Panel1 extends JPanel {
 
         setLayout(new BorderLayout());
 
+        // Fondo degradado
+        setOpaque(false);
+
         // Paneles
-        JPanel centerPanel = new JPanel(new GridLayout(1, 2, 20, 0));
+        JPanel centerPanel = new JPanel(new GridLayout(1, 2, 40, 0));
+        centerPanel.setOpaque(false);
+
         JPanel leftPanel = new JPanel(new BorderLayout());
+        leftPanel.setOpaque(false);
         JPanel rightPanel = new JPanel(new BorderLayout());
+        rightPanel.setOpaque(false);
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setOpaque(false);
 
         // Imágenes
         ImageIcon titleImage = new ImageIcon(new ImageIcon("src/images/battleTitle.png").getImage().getScaledInstance(350, 200, Image.SCALE_SMOOTH));
@@ -39,21 +63,41 @@ public class Panel1 extends JPanel {
         trainer1Image.setHorizontalAlignment(SwingConstants.CENTER);
         trainer2Image.setHorizontalAlignment(SwingConstants.CENTER);
 
+
+
         // Etiqueta del color de cada entrenador
         JLabel trainerLabel1 = new JLabel("Entrenador Azul:");
         JLabel trainerLabel2 = new JLabel("Entrenador Rojo:");
 
-        // Posición de los labels texto de cada entrenador
+        // Posición y estilo de los labels texto de cada entrenador
         trainerLabel1.setHorizontalAlignment(SwingConstants.CENTER);
         trainerLabel2.setHorizontalAlignment(SwingConstants.CENTER);
+        trainerLabel1.setFont(new Font("Arial", Font.BOLD, 16));
+        trainerLabel2.setFont(new Font("Arial", Font.BOLD, 16));
+        trainerLabel1.setForeground(new Color(0x1976D2));
+        trainerLabel2.setForeground(new Color(0xD32F2F));
 
-        // Campos de textos
-        trainerName1 = new JTextField(5);
-        trainerName2 = new JTextField(5);
+        // Campos de textos personalizados
+        trainerName1 = new JTextField(8);
+        trainerName2 = new JTextField(8);
+        trainerName1.setFont(new Font("Arial", Font.BOLD, 16));
+        trainerName1.setBackground(new Color(0xE3F2FD));
+        trainerName1.setBorder(BorderFactory.createLineBorder(new Color(0x1976D2), 2, true));
+        trainerName2.setFont(new Font("Arial", Font.BOLD, 16));
+        trainerName2.setBackground(new Color(0xFFEBEE));
+        trainerName2.setBorder(BorderFactory.createLineBorder(new Color(0xD32F2F), 2, true));
 
-        // Botones de inicio y carga
+        // Botones de inicio y carga personalizados
         startButton = new JButton("Nueva Partida");
         loadButton = new JButton("Cargar partida");
+        startButton.setBackground(new Color(0x1976D2));
+        startButton.setForeground(Color.WHITE);
+        startButton.setFont(new Font("Arial", Font.BOLD, 14));
+        startButton.setFocusPainted(false);
+        loadButton.setBackground(new Color(0xD32F2F));
+        loadButton.setForeground(Color.WHITE);
+        loadButton.setFont(new Font("Arial", Font.BOLD, 14));
+        loadButton.setFocusPainted(false);
 
         // Añadir los elementos a los paneles correspondientes
         leftPanel.add(trainer1Image, BorderLayout.NORTH);
@@ -77,6 +121,16 @@ public class Panel1 extends JPanel {
 
         startButton.addActionListener(e -> checkTextFields());
         loadButton.addActionListener(e -> uploadGame());
+    }
+
+    // Fondo degradado
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        GradientPaint gp = new GradientPaint(0, 0, new Color(0xB2DFDB), 0, getHeight(), new Color(0xE1BEE7));
+        g2d.setPaint(gp);
+        g2d.fillRect(0, 0, getWidth(), getHeight());
     }
 
     // Comprobación de los campos llenos
