@@ -22,7 +22,7 @@ public class Gui extends JFrame implements View {
     // Constructor de la GUI
     public Gui(){
         setTitle("BATALLA POKEMON");
-        setSize(800,500);
+        setSize(900,700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         cardLayout = new CardLayout();
