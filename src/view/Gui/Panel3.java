@@ -1,6 +1,7 @@
 package src.view.Gui;
 
 import src.controller.Controller;
+import src.model.exceptions.SeleccionInvalidaException;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -23,6 +24,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
@@ -389,7 +391,13 @@ public class Panel3 extends JPanel implements ActionListener {
 
         // Verificar si alguno de los Pokemon fue derrotado
         controller.winner();
-        controller.checkAlivePokemon();
+
+        try {
+            controller.checkAlivePokemon();
+        } catch (SeleccionInvalidaException e1) {
+       
+            JOptionPane.showMessageDialog(this, e1.getMessage(), "Error", JOptionPane.WARNING_MESSAGE);
+        }
 
         isBlueTurn = controller.nextTurn();
         updateButtonStates();

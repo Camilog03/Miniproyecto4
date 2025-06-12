@@ -1,6 +1,7 @@
 package src.view.Gui;
 
 import src.controller.Controller;
+import src.model.exceptions.SeleccionInvalidaException;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -10,6 +11,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
+
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -135,13 +138,14 @@ public class Panel1 extends JPanel {
 
     // Comprobación de los campos llenos
     private void checkTextFields() {
-        if (trainerName1.getText().isEmpty() || trainerName2.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debes llenar ambos campos", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "¡Ambos campos están llenos! Iniciando juego...", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        try {
             controller.newGame(trainerName1.getText(), trainerName2.getText());
+            JOptionPane.showMessageDialog(this, "¡Ambos campos están llenos! Iniciando juego...", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             controller.goToPanel2();
+        } catch (SeleccionInvalidaException e) {
+           JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
+        
     }
 
     // Metodo para cargar partida con JFileChooser
@@ -154,7 +158,7 @@ public class Panel1 extends JPanel {
             String path = fileChooser.getSelectedFile().getAbsolutePath();
             try {
                 controller.uploadGame(path);
-            } catch (Exception e) {
+            } catch (IOException|ClassNotFoundException|SeleccionInvalidaException e) {
                 JOptionPane.showMessageDialog(this, "Error al cargar la partida: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }

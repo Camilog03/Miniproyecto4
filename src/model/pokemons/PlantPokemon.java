@@ -1,8 +1,7 @@
 package src.model.pokemons;
 
 import src.model.actions.Attack;
-import src.model.exceptions.AtaqueNoDisponibleException;
-import src.model.exceptions.PokemonDebilitadoException;
+
 
 public class PlantPokemon extends Pokemon {
 
@@ -15,7 +14,7 @@ public class PlantPokemon extends Pokemon {
         attacksOfClass.add(new Attack("Latigazo", Type.PHYSICAL, (short) 35, false));
         attacksOfClass.add(new Attack("Hoja Afilada", Type.PHYSICAL, (short) 45, false));
         attacksOfClass.add(new Attack("Látigo Cepa", Type.PHYSICAL, (short) 30, false));
-        attacksOfClass.add(new Attack("Fitoimpulso", Type.PHYSICAL, (short) 45, false));
+        attacksOfClass.add(new Attack("Fotoimpulso", Type.PHYSICAL, (short) 45, false));
         attacksOfClass.add(new Attack("Hoja Aguda", Type.PHYSICAL, (short) 50, false));
         attacksOfClass.add(new Attack("Embate Verde", Type.PHYSICAL, (short) 40, false));
         attacksOfClass.add(new Attack("Puya Espinosa", Type.PHYSICAL, (short) 35, false));
@@ -41,15 +40,7 @@ public class PlantPokemon extends Pokemon {
     }
 
     @Override
-    public void doAttack(Pokemon oponentPokemon, byte indexAttackSelected) throws AtaqueNoDisponibleException, PokemonDebilitadoException {
-
-        if (this.getHp() <=0) {
-            throw new PokemonDebilitadoException(this.getName()+ " está debilitado y no puede atacar");
-        }
-
-        if (indexAttackSelected < 0 || indexAttackSelected >= attacksInstance.size()) {
-            throw new AtaqueNoDisponibleException("Este ataque no está diponible para " + this.getName());
-        }
+    public void doAttack(Pokemon oponentPokemon, byte indexAttackSelected) {
 
         double effectivity;
         switch (oponentPokemon.getType()){

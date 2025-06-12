@@ -2,6 +2,7 @@ package src.model;
 
 import src.model.actions.Attack;
 import src.model.characters.Trainer;
+
 import src.model.pokemons.Pokemon;
 
 import java.io.*;
@@ -117,14 +118,18 @@ public class BattleManager implements Serializable {
     }
 
     public String bluePokemonAttack(byte indexAttack){
+        
         pokemonBlue.doAttack(pokemonRed, indexAttack);
+        
         String message = pokemonBlue.getName() + " uso " + pokemonBlue.getAttacksInstance().get(indexAttack).getName() + " sobre " + pokemonRed.getName() + " causando " + pokemonBlue.getDamageMadeIt() + " puntos de daño.";
         actionHistory.push(message);
         return message;
     }
 
     public String redPokemonAttack(byte indexAttack){
+        
         pokemonRed.doAttack(pokemonBlue, indexAttack);
+        
         String message = pokemonRed.getName() + " uso " + pokemonRed.getAttacksInstance().get(indexAttack).getName() + " sobre " + pokemonBlue.getName() + " causando " + pokemonRed.getDamageMadeIt() + " puntos de daño.";
         actionHistory.push(message);
         return message;

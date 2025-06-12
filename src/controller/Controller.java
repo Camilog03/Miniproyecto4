@@ -2,14 +2,13 @@ package src.controller;
 
 import src.model.BattleManager;
 import src.model.characters.Trainer;
-import src.model.exceptions.AtaqueNoDisponibleException;
-import src.model.exceptions.PokemonDebilitadoException;
+import src.model.exceptions.SeleccionInvalidaException;
 import src.model.pokemons.Pokemon;
 import src.view.View;
-
-import java.util.InputMismatchException;
-
 import javax.swing.*;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -27,27 +26,26 @@ public class Controller {
         view.showPanel1();
     }
 
-    public void newGame(String trainerBlueName,  String trainerRedName) {
+    public void newGame(String trainerBlueName,  String trainerRedName) throws SeleccionInvalidaException{
+        if (trainerBlueName.isEmpty() || trainerRedName.isEmpty()){
+            throw new SeleccionInvalidaException("Debes llenar ambos campos!");
+        }
         this.battleManager = new BattleManager(trainerBlueName, trainerRedName);
     }
 
-    public void goToPanel2(){
+    public void goToPanel2() throws SeleccionInvalidaException{
 
         view.showPanel2(battleManager.getBlueTrainerName(), battleManager.getRedTrainerName(), battleManager.getNamesBlue(), battleManager.getNamesRed(), battleManager.getAlivesBlue(), battleManager.getAlivesRed());
 
     }
 
-    public void goToPanel3(String pokemonBlue, String pokemonRed){
-
+    public void goToPanel3(String pokemonBlue, String pokemonRed) throws SeleccionInvalidaException{ 
+        
+        if (pokemonBlue.isBlank() ||  pokemonRed.isBlank()){
+            throw new SeleccionInvalidaException("Debes seleccionar un pokemon para ambos entrenadores!.");
+        }
         battleManager.startBattle(pokemonBlue, pokemonRed);
 
-        try{
-
-        if (!trainerBlue.getSelectedPokemon(indexBlue).isAlive()) {
-            throw new PokemonDebilitadoException(trainerBlue.getSelectedPokemon(indexBlue).getName() + " está debilitado y no puede usarse, selecciona otro pokemon");
-        }else if (!trainerRed.getSelectedPokemon(indexRed).isAlive()) {
-            throw new PokemonDebilitadoException(trainerRed.getSelectedPokemon(indexRed).getName() + " está debilitado y no puede usarse, selecciona otro pokemon");
-        }
         boolean turn = battleManager.getTurn();
 
         Queue<String> blueAttacks = battleManager.getAttacksBlue();
@@ -58,11 +56,6 @@ public class Controller {
 
         view.showPanel3("Inicia el entrandor " + (turn?"AZUL":"ROJO") , battleManager.getBlueTrainerName(), battleManager.getRedTrainerName(), pokemonBlue,
                 pokemonRed, battleManager.getPathBluePokemon(), battleManager.getPathRedPokemon() ,blueAttacks, redAttacks, turn);
-
-        }catch(PokemonDebilitadoException e){
-            view.showMessage(e.getMessage());
-            goToPanel2();
-        }
     }
 
     public boolean nextTurn() {
@@ -70,7 +63,7 @@ public class Controller {
         return battleManager.getTurn();
     }
 
-    public void checkAlivePokemon(){
+    public void checkAlivePokemon() throws SeleccionInvalidaException{
         if (!battleManager.getBluePokemonStatus() || !battleManager.getRedPokemonStatus()) {
             String deadPokemon = battleManager.getBluePokemonStatus() ?  battleManager.getRedPokemonName():battleManager.getBluePokemonName();
 
@@ -79,6 +72,7 @@ public class Controller {
             battleManager.updatePokemonsAlives();
             goToPanel2();
         }
+        
     }
 
     public void updateHP(){
@@ -107,21 +101,17 @@ public class Controller {
         view.showPanel1();
     }
 
-    public void uploadGame(String path) {
-        try {
-            this.battleManager = BattleManager.loadGame(path);
-            goToPanel2();
-        } catch (Exception e) {
-            view.showMessage("Error al cargar partida: " + e.getMessage());
-        }
+    public void uploadGame(String path) throws IOException, FileNotFoundException, ClassNotFoundException, SeleccionInvalidaException{
+       
+        this.battleManager = BattleManager.loadGame(path);
+        goToPanel2();
+        
     }
 
-    public void saveGame(String path) {
-        try {
-            battleManager.saveGame(path);
-            view.showMessage("Partida guardada exitosamente.");
-        } catch (Exception e) {
-            view.showMessage("Error al guardar la partida: " + e.getMessage());
-        }
+    public void saveGame(String path) throws IOException, FileNotFoundException{
+    
+        battleManager.saveGame(path);
+        view.showMessage("Partida guardada exitosamente.");
+        
     }
 }

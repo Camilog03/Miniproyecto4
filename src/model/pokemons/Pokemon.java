@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import src.model.actions.Attack;
-import src.model.exceptions.AtaqueNoDisponibleException;
-import src.model.exceptions.PokemonDebilitadoException;
+
 
 public abstract class Pokemon implements Comparable<Pokemon>, Serializable {
 
@@ -111,7 +110,7 @@ public abstract class Pokemon implements Comparable<Pokemon>, Serializable {
     //Other methods
 
     //Attack method that need to be defined on each type of pokemon
-    public abstract void doAttack(Pokemon oponentPokemon, byte indexAttackSelected) throws AtaqueNoDisponibleException, PokemonDebilitadoException;
+    public abstract void doAttack(Pokemon oponentPokemon, byte indexAttackSelected);
 
     //Receive damage method
     public void receiveDamage(short damage){

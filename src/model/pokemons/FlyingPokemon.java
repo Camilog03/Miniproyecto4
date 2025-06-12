@@ -1,8 +1,8 @@
 package src.model.pokemons;
 
 import src.model.actions.Attack;
-import src.model.exceptions.AtaqueNoDisponibleException;
-import src.model.exceptions.PokemonDebilitadoException;
+
+
 
 public class FlyingPokemon extends Pokemon {
 
@@ -39,16 +39,8 @@ public class FlyingPokemon extends Pokemon {
     }
 
     @Override
-    public void doAttack(Pokemon oponentPokemon, byte indexAttackSelected) throws AtaqueNoDisponibleException, PokemonDebilitadoException {
+    public void doAttack(Pokemon oponentPokemon, byte indexAttackSelected) {
 
-        if (this.getHp() <=0) {
-            throw new PokemonDebilitadoException(this.getName()+ " está debilitado y no puede atacar");
-        }
-
-        if (indexAttackSelected < 0 || indexAttackSelected >= attacksInstance.size()) {
-            throw new AtaqueNoDisponibleException("Este ataque no está diponible para " + this.getName());
-        }
-        
         double effectivity;
         switch (oponentPokemon.getType()){
             case ELECTRIC -> effectivity = 0.5;
