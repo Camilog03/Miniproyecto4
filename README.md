@@ -94,12 +94,11 @@ Esto permite continuar una batalla justo donde se dejó.
 
 ## 🚨 Manejo de Excepciones
 
-Se implementó la excepción personalizada:
+Se implementó una excepción personalizada para mejorar la robustez del sistema frente a errores provocados por el usuario:
 
 - ⚠️ `SeleccionInvalidaException`:  
-  Se lanza al intentar usar un Pokémon con HP ≤ 0.
-
-Mejora el flujo lógico del combate y la robustez del sistema.
+  Se lanza cuando el usuario no ingresa los nombres de los entrenadores o no selecciona un Pokémon al avanzar entre paneles.
+  Esta excepción evita que el programa continúe con datos incompletos y garantiza una interacción correcta con la interfaz gráfica.
 
 ---
 
