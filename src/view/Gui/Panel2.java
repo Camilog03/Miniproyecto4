@@ -266,7 +266,6 @@ public class Panel2 extends JPanel {
             }
             try {
                 controller.saveGame(path);
-                JOptionPane.showMessageDialog(this, "Partida guardada exitosamente.");
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(this, "Error al guardar la partida: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }

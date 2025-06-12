@@ -2,9 +2,7 @@ package src.model;
 
 import src.model.actions.Attack;
 import src.model.characters.Trainer;
-
 import src.model.pokemons.Pokemon;
-
 import java.io.*;
 import java.io.Serializable;
 import java.util.LinkedList;

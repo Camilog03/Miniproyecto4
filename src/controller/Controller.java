@@ -1,15 +1,10 @@
 package src.controller;
 
 import src.model.BattleManager;
-import src.model.characters.Trainer;
 import src.model.exceptions.SeleccionInvalidaException;
-import src.model.pokemons.Pokemon;
 import src.view.View;
-import javax.swing.*;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -55,7 +50,7 @@ public class Controller {
 
         view.updateHP(battleManager.getHPBluePokemon(), battleManager.getHPRedPokemon(), battleManager.getHPInitialBluePokemon(), battleManager.getHPInitialRedPokemon());
 
-        view.showPanel3("Inicia el entrandor " + (turn?"AZUL":"ROJO") , battleManager.getBlueTrainerName(), battleManager.getRedTrainerName(), pokemonBlue,
+        view.showPanel3("Inicia el entrenador " + (turn?"AZUL":"ROJO") , battleManager.getBlueTrainerName(), battleManager.getRedTrainerName(), pokemonBlue,
                 pokemonRed, battleManager.getPathBluePokemon(), battleManager.getPathRedPokemon() ,blueAttacks, redAttacks, turn);
     }
 
