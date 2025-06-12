@@ -38,7 +38,8 @@ public class Panel2 extends JPanel {
     private JRadioButton radioButton1Blue, radioButton2Blue, radioButton3Blue;
     private JRadioButton radioButton1Red, radioButton2Red, radioButton3Red;
     private ButtonGroup leftButtonGroup, rightButtonGroup;
-
+    
+    // Constructor del panel
     public Panel2() {
 
         setLayout(new BorderLayout());
@@ -190,13 +191,14 @@ public class Panel2 extends JPanel {
     // Fondo degradado
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-        GradientPaint gp = new GradientPaint(0, 0, new Color(0xB2DFDB), 0, getHeight(), new Color(0xE1BEE7));
-        g2d.setPaint(gp);
-        g2d.fillRect(0, 0, getWidth(), getHeight());
+        super.paintComponent(g); 
+        Graphics2D g2d = (Graphics2D) g; // Convertir Graphics a Graphics2D para usar degradado
+        GradientPaint gp = new GradientPaint(0, 0, new Color(0xB2DFDB), 0, getHeight(), new Color(0xE1BEE7)); // Degradado de color
+        g2d.setPaint(gp); // Crear el degradado
+        g2d.fillRect(0, 0, getWidth(), getHeight()); // Rellenar el fondo con el degradado
     }
 
+    // Setters para nombres de pokemones
     public void setNamesPokemons(Queue<String> namesBlue, Queue<String> namesRed){
         radioButton1Blue.setText(namesBlue.poll());
         radioButton2Blue.setText(namesBlue.poll());
@@ -207,6 +209,7 @@ public class Panel2 extends JPanel {
         radioButton3Red.setText(namesRed.poll());
     }
 
+    // Actualiza el estado de los Pokémon vivos en la interfaz
     public void updateAlivePokemons(Queue<Boolean> aliveBlue, Queue<Boolean> aliveRed) {
 
         //limpiar seleccion de los pokemones del entrenador azul
@@ -226,6 +229,7 @@ public class Panel2 extends JPanel {
         radioButton3Red.setEnabled(aliveRed.poll());
     }
 
+    //Metodo que toma las selecciones de pokemon e inicia batalla 
     private void start(){
         String pokemonBlue = "";
         String pokemonRed = "";
@@ -243,7 +247,7 @@ public class Panel2 extends JPanel {
                 pokemonRed = button.getText();
             }
         }
-
+        // Por si uno de los pokemon no se elige para cualquiera de los entrenadores 
         try {
 
             controller.goToPanel3(pokemonBlue, pokemonRed);
@@ -254,6 +258,7 @@ public class Panel2 extends JPanel {
         
     }
 
+    // Metodo para guardar partida
     private void saveGame() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Guardar partida");
@@ -272,7 +277,7 @@ public class Panel2 extends JPanel {
         }
     }
 
-    // Setters y Getters
+    // Setters 
     public void setTrainerBlueName(String name) {
         blueTrainerLabel.setText(name);
     }

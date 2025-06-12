@@ -3,7 +3,12 @@ package src.model;
 import src.model.actions.Attack;
 import src.model.characters.Trainer;
 import src.model.pokemons.Pokemon;
-import java.io.*;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -23,8 +28,8 @@ public class BattleManager implements Serializable {
     private Queue<String> namesRed;
     private Queue<Boolean> alivesBlue;
     private Queue<Boolean> alivesRed;
-    // Constructor para nueva partida
-
+    
+    // Este constructor crea dos entrenadores con nombres dados y les asigna pokemones aleatorios.
     public BattleManager(String blueTrainerName, String redTrainerName) {
         this.trainerBlue = new Trainer(blueTrainerName);
         this.trainerRed = new Trainer(redTrainerName);
@@ -90,6 +95,7 @@ public class BattleManager implements Serializable {
         }
     }
 
+    // Inicia la batalla con los pokemones seleccionados por los entrenadores
     public void startBattle(String pokemonBlue, String pokemonRed) {
         turnOrder.clear();
         this.pokemonBlue = trainerBlue.getTeam().get(pokemonBlue);
@@ -102,6 +108,7 @@ public class BattleManager implements Serializable {
         actionHistory.clear(); // <-- Limpia el historial al iniciar batalla
     }
 
+    // Actualiza estado de los pokemones (si están vivos o no)
     public void updatePokemonsAlives(){
         for(String name : trainerBlue.getTeam().keySet()) {
             this.alivesBlue.add(trainerBlue.getTeam().get(name).isAlive());
@@ -116,24 +123,22 @@ public class BattleManager implements Serializable {
         turnOrder.addLast(turnOrder.removeFirst());
     }
 
+    //Funciones para retornar el ataque y daño de cada pokemon
     public String bluePokemonAttack(byte indexAttack){
-        
         pokemonBlue.doAttack(pokemonRed, indexAttack);
-        
         String message = pokemonBlue.getName() + " uso " + pokemonBlue.getAttacksInstance().get(indexAttack).getName() + " sobre " + pokemonRed.getName() + " causando " + pokemonBlue.getDamageMadeIt() + " puntos de daño.";
         actionHistory.push(message);
         return message;
     }
 
     public String redPokemonAttack(byte indexAttack){
-        
         pokemonRed.doAttack(pokemonBlue, indexAttack);
-        
         String message = pokemonRed.getName() + " uso " + pokemonRed.getAttacksInstance().get(indexAttack).getName() + " sobre " + pokemonBlue.getName() + " causando " + pokemonRed.getDamageMadeIt() + " puntos de daño.";
         actionHistory.push(message);
         return message;
     }
 
+    //Funcion que retorna ganador
     public String hasWinner(){
         byte countBlue = 0;
         byte countRed = 0;
@@ -168,6 +173,8 @@ public class BattleManager implements Serializable {
             return (BattleManager) in.readObject();
         }
     }
+
+    //Getters  y Setters
     public boolean getTurn(){
         return turnOrder.getFirst() == pokemonBlue;
     }
@@ -212,6 +219,7 @@ public class BattleManager implements Serializable {
         return trainerRed.getTrainerName();
     }
 
+    // Retorna las instancias de ataques de los pokemones
     public Queue<String> getAttacksBlue() {
         Queue<String> attacks = new LinkedList<>();
         for(Attack attackName : pokemonBlue.getAttacksInstance()){
@@ -228,6 +236,7 @@ public class BattleManager implements Serializable {
         return attacks;
     }
 
+    // Retorna los puntos de vida de los pokemones
     public short getHPBluePokemon() {
         return pokemonBlue.getHp();
     }
@@ -236,6 +245,7 @@ public class BattleManager implements Serializable {
         return pokemonRed.getHp();
     }
 
+    // Retorna los paths de los pokemones
     public String getPathBluePokemon() {
         return pokemonBlue.getPath();
     }
@@ -244,6 +254,7 @@ public class BattleManager implements Serializable {
         return pokemonRed.getPath();
     }
 
+    // Retorna el estado de los pokemones (vivos o no)
     public boolean getBluePokemonStatus() {
         return  pokemonBlue.isAlive();
     }
@@ -252,6 +263,7 @@ public class BattleManager implements Serializable {
         return  pokemonRed.isAlive();
     }
 
+    // Retorna los nombres de los pokemones
     public String getBluePokemonName() {
         return pokemonBlue.getName();
     }
@@ -260,6 +272,7 @@ public class BattleManager implements Serializable {
         return pokemonRed.getName();
     }
 
+    // Retorna los puntos de vida iniciales de los pokemones
     public short getHPInitialBluePokemon() {
         return pokemonBlue.getHpInitial();
     }
@@ -268,6 +281,7 @@ public class BattleManager implements Serializable {
         return pokemonRed.getHpInitial();
     }
 
+    // Limpia el historial de acciones
     public Stack<String> getActionHistory() {
         return (Stack<String>) actionHistory.clone();
     }
