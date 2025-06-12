@@ -1,6 +1,7 @@
 package src.view.Gui;
 
 import src.controller.Controller;
+import src.model.exceptions.SeleccionInvalidaException;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -10,6 +11,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
+
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Queue;
 
@@ -241,11 +244,14 @@ public class Panel2 extends JPanel {
             }
         }
 
-        if (pokemonBlue.isBlank() ||  pokemonRed.isBlank()) {
-            JOptionPane.showMessageDialog(this, "Debes seleccionar un Pokémon para ambos entrenadores.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        } else {
+        try {
+
             controller.goToPanel3(pokemonBlue, pokemonRed);
+            
+        } catch (SeleccionInvalidaException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
+        
     }
 
     private void saveGame() {
@@ -260,8 +266,7 @@ public class Panel2 extends JPanel {
             }
             try {
                 controller.saveGame(path);
-                JOptionPane.showMessageDialog(this, "Partida guardada exitosamente.");
-            } catch (Exception e) {
+            } catch (IOException e) {
                 JOptionPane.showMessageDialog(this, "Error al guardar la partida: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }

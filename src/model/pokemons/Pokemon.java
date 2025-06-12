@@ -6,6 +6,7 @@ import java.util.Random;
 
 import src.model.actions.Attack;
 
+
 public abstract class Pokemon implements Comparable<Pokemon>, Serializable {
 
     //Attributes
