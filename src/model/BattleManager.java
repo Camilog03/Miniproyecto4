@@ -98,8 +98,9 @@ public class BattleManager implements Serializable {
 
         turnOrder.add(this.pokemonBlue);
         turnOrder.add(this.pokemonRed);
-        turnOrder.sort((a,b) -> b.getSpeed() - a.getSpeed());//Expresion lambda usada para ordenar los pokemones con velocidad mayor a menor se resta "b" con "a" si es positivo
-        //"b" va primero que "a" y si es negativo primero va "a" que "b"
+        turnOrder.sort((a,b) -> b.getSpeed() - a.getSpeed());
+
+        actionHistory.clear(); // <-- Limpia el historial al iniciar batalla
     }
 
     public void updatePokemonsAlives(){
@@ -262,5 +263,9 @@ public class BattleManager implements Serializable {
 
     public short getHPInitialRedPokemon() {
         return pokemonRed.getHpInitial();
+    }
+
+    public Stack<String> getActionHistory() {
+        return (Stack<String>) actionHistory.clone();
     }
 }
