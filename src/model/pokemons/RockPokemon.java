@@ -2,6 +2,7 @@ package src.model.pokemons;
 
 import src.model.actions.Attack;
 
+
 public class RockPokemon extends Pokemon {
 
     //Constructor and somes attacks to the type of pokemon

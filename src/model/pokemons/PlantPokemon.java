@@ -2,6 +2,7 @@ package src.model.pokemons;
 
 import src.model.actions.Attack;
 
+
 public class PlantPokemon extends Pokemon {
 
     //Constructor and somes attacks to the type of pokemon
@@ -13,7 +14,7 @@ public class PlantPokemon extends Pokemon {
         attacksOfClass.add(new Attack("Latigazo", Type.PHYSICAL, (short) 35, false));
         attacksOfClass.add(new Attack("Hoja Afilada", Type.PHYSICAL, (short) 45, false));
         attacksOfClass.add(new Attack("Látigo Cepa", Type.PHYSICAL, (short) 30, false));
-        attacksOfClass.add(new Attack("Fitoimpulso", Type.PHYSICAL, (short) 45, false));
+        attacksOfClass.add(new Attack("Fotoimpulso", Type.PHYSICAL, (short) 45, false));
         attacksOfClass.add(new Attack("Hoja Aguda", Type.PHYSICAL, (short) 50, false));
         attacksOfClass.add(new Attack("Embate Verde", Type.PHYSICAL, (short) 40, false));
         attacksOfClass.add(new Attack("Puya Espinosa", Type.PHYSICAL, (short) 35, false));

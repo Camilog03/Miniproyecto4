@@ -2,6 +2,7 @@ package src.model.pokemons;
 
 import src.model.actions.Attack;
 
+
 public class ElectricPokemon extends Pokemon {
 
 

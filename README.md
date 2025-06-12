@@ -1,85 +1,135 @@
-# 🧠 Simulador de Batallas Pokémon - Miniproyecto 3 (MVC)
+# ⚔️ Simulador de Batallas Pokémon - Miniproyecto 4 (MVC + Estructuras + Persistencia + Excepciones + Barras de vida)
 
 [![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)](https://www.java.com/)
+[![Swing](https://img.shields.io/badge/Swing-GUI-blue?style=for-the-badge)](https://docs.oracle.com/javase/tutorial/uiswing/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-> **Universidad del Valle - Colombia 🇨🇴**  
-> **Programación Orientada a Objetos | GUI Aplicada | Patrón MVC**
+> **Universidad del Valle – Colombia 🇨🇴**  
+> **Programación Orientada a Objetos | Estructuras Avanzadas | MVC | Excepciones | Persistencia**
 
 ---
 
 ## 📚 Tabla de Contenidos
 
-- [Descripción](#descripción)
-- [Arquitectura MVC](#arquitectura-mvc)
-- [Componentes del Modelo](#componentes-del-modelo)
-- [Interfaz Gráfica (Vista)](#interfaz-gráfica-vista)
-- [Controlador](#controlador)
-- [Integrantes](#integrantes)
-- [Instalación y Uso](#instalación-y-uso)
-
+- [📖 Descripción](#📖-descripción)
+- [🧱 Arquitectura MVC](#🧱-arquitectura-mvc)
+- [🔁 Cambio Clave en el Diseño: BattleManager](#🔁-cambio-clave-en-el-diseño-battlemanager)
+- [🧠 Estructuras de Datos Avanzadas](#🧠-estructuras-de-datos-avanzadas)
+- [💾 Persistencia](#💾-persistencia)
+- [🚨 Manejo de Excepciones](#🚨-manejo-de-excepciones)
+- [🖼️ Interfaz Gráfica](#🖼️-interfaz-gráfica)
+- [🎮 Controlador](#🎮-controlador)
+- [👥 Integrantes](#👥-integrantes)
+- [🛠️ Instalación y Uso](#🛠️-instalación-y-uso)
 
 ---
 
 ## 📖 Descripción
 
-Este proyecto es una extensión del **Miniproyecto 2**, ahora adaptado al patrón de diseño **Modelo-Vista-Controlador (MVC)**.  
-El objetivo es mejorar la organización del código separando claramente la **lógica del juego**, la **interfaz gráfica del usuario (GUI)** y el **controlador** que gestiona la interacción entre ambos.
+Este proyecto representa la cuarta fase del desarrollo de un **sistema de batallas Pokémon**, implementado bajo el patrón **Modelo-Vista-Controlador (MVC)**. A diferencia de versiones anteriores, esta incluye:
+
+- Manejo de excepciones personalizadas.
+- Uso de **estructuras de datos avanzadas**.
+- Guardado y carga de partidas mediante archivos de texto.
+- Refactorización de la lógica del combate para mejorar la mantenibilidad.
 
 ---
 
 ## 🧱 Arquitectura MVC
 
-- **Modelo**: Contiene toda la lógica del juego (Pokémon, ataques, combate).
-- **Vista**: Interfaz visual construida con **Swing**, incluye pantallas de selección, combate y resultados.
-- **Controlador**: Gestiona la comunicación entre la vista y el modelo, según la interacción del usuario.
+- **Modelo**: Lógica del juego (Pokémon, ataques, entrenadores, combate).
+- **Vista**: GUI con **Swing**, permite la interacción visual.
+- **Controlador**: Ahora más limpio, solo conecta la vista con la lógica interna (BattleManager).
 
 ---
 
-## 🔧 Componentes del Modelo
+## 🔁 Cambio Clave en el Diseño: `BattleManager`
 
-- 🐲 **Pokémon**: Atributos como nombre, tipo, HP, ataque, defensa, ataque especial, defensa especial, velocidad, y una lista de hasta 4 ataques.
-- ⚔️ **Ataque**: Definido por nombre, tipo (físico/especial, aunque el tipo no se usará) y potencia.
-- 🧑‍🎓 **Entrenador**: Nombre y equipo de hasta 3 Pokémon. Capacidad de elegir cuál entra al combate.
-- 🥊 **Batalla**: Gestiona el sistema de turnos, aplica daño y determina al ganador.
+Antes, la lógica del combate estaba incrustada en el `Controller`, lo que violaba el principio de separación de responsabilidades.
+
+Ahora, todo el manejo de la batalla está encapsulado en la clase `BattleManager`:
+
+- Gestiona entrenadores, Pokémon y ataques.
+- Determina el orden de turnos (`LinkedList`).
+- Lleva el historial de ataques (`Stack<String>`).
+- Evalúa condiciones de victoria.
+- Se encarga de **guardar y cargar** partidas (`Serializable`).
+- Administra los nombres y estados de vida de Pokémon con colas (`Queue`).
+
+El `Controller` solo se encarga de responder a eventos de la interfaz gráfica y delegar tareas a `BattleManager`.
+
+✅ Esto mejora la escalabilidad, el orden del código y su reutilización en otras vistas (por ejemplo, consola).
 
 ---
 
-## 🎨 Interfaz Gráfica (Vista)
+## 🧠 Estructuras de Datos Avanzadas
 
-- Pantalla de ingreso de nombres de entrenadores.
-- Visualización de los equipos Pokémon asignados aleatoriamente.
-- Interfaz para seleccionar ataques y mostrar el estado del combate.
-- *(Bonus)*: Posibilidad de mostrar imágenes de los Pokémon.
-- *(Bonus)*: Uso de generadores automáticos de interfaz (por ejemplo, en NetBeans).
+Este proyecto hace uso de las siguientes estructuras:
+
+- 🔁 **Pila (`Stack`)**  
+  Almacena el historial de movimientos durante la batalla.  
+  Permite mostrar los últimos ataques realizados.
+
+- 🧬 **Lista Enlazada (`LinkedList`)**  
+  Controla el **orden de turnos** de los Pokémon en combate, priorizando por velocidad.
+
+- ⏳ **Cola (`Queue`)**  
+  Administra el nombre y estado (vida) de los Pokémon disponibles para cada entrenador.
+
+- 🧠 **Tabla Hash (`HashMap`)**  
+  Usada en la clase `Trainer` para buscar Pokémon por nombre eficientemente.
+
+---
+
+## 💾 Persistencia
+
+Gracias a la implementación de `Serializable`, el juego permite:
+
+- **Guardar partida** en archivos `.dat`, con información completa del estado actual.
+- **Cargar partida** desde archivos guardados, restaurando entrenadores, Pokémon, historial y turnos.
+
+Esto permite continuar una batalla justo donde se dejó.
+
+---
+
+## 🚨 Manejo de Excepciones
+
+Se implementó la excepción personalizada:
+
+- ⚠️ `SeleccionInvalidaException`:  
+  Se lanza al intentar usar un Pokémon con HP ≤ 0.
+
+Mejora el flujo lógico del combate y la robustez del sistema.
+
+---
+
+## 🖼️ Interfaz Gráfica
+
+La GUI fue desarrollada con **Swing** y permite:
+
+- Ingreso de nombres de entrenadores.
+- Selección visual de Pokémon.
+- Botones para ejecutar ataques.
+- Visualización del historial de combate.
+- Botones para guardar/cargar partida.
 
 ---
 
 ## 🎮 Controlador
 
-- Se encarga de recibir eventos de la interfaz (clics, selecciones, etc.).
-- Conecta la vista con el modelo, enviando instrucciones y actualizando los datos mostrados al usuario.
-- Se recomienda utilizar la **segunda versión** del controlador vista en clase.
+El `Controller` ahora tiene funciones mucho más específicas:
+
+- Recibe eventos desde la interfaz.
+- Llama a métodos de `BattleManager`.
+- Controla el cambio entre paneles (`Panel1`, `Panel2`, `Panel3`).
+- Actualiza la GUI según el estado de la batalla.
 
 ---
 
 ## 👥 Integrantes
 
-- 👤 Paula Jimena Bohórquez Bermúdez  
-- 👤 Manuela Delgado Aguirre  
-- 👤 Juan Camilo Gil Agudelo  
-- 👤 Gabriel Esteban Burbano Mora  
+- 👤 Paula Jimena Bohórquez Bermúdez - 2459409
+- 👤 Manuela Delgado Aguirre - 2459640
+- 👤 Juan Camilo Gil Agudelo - 2459531
+- 👤 Gabriel Esteban Burbano Mora - 2459385
 
-> ⚠️ **Importante**: Quien no aparezca aquí **no será calificado**.
-
----
-
-## 🛠️ Instalación y Uso
-
-1. Clonar el repositorio:
-   ```bash
-   git clone https://github.com/tu_usuario/SimuladorPokemonMVC.git
-   ```
-2. Abrir el proyecto en **NetBeans** o cualquier IDE de tu preferencia compatible con Java.
-3. Ejecutar la clase principal que lanza la interfaz.
-4. Seguir las instrucciones en pantalla.
